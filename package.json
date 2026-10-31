@@ -3,19 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "description": "Serve a folder over TFTP from electerm — for routers, switches, PXE boot and other gear that has no better protocol.",
-  "main": "index.js",
+  "main": "main.js",
   "license": "MIT",
   "author": "ZHAO Xudong",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zxdong262/electerm-widget-tftp.git"
+    "url": "https://github.com/electerm/electerm-widget-tftp.git"
   },
   "engines": {
     "node": ">=18"
   },
   "scripts": {
     "test": "node --test \"test/*.test.js\"",
-    "lint": "node --check index.js && node --check lib/server.js && node --check lib/packet.js && node --check lib/safe-path.js && node --check lib/block-reader.js && node --check lib/netascii.js"
+    "lint": "node --check main.js && node --check lib/server.js && node --check lib/packet.js && node --check lib/safe-path.js && node --check lib/block-reader.js && node --check lib/netascii.js"
   },
   "keywords": [
     "electerm",
@@ -30,7 +30,7 @@
     "description": "Serve a folder over TFTP for routers, switches, PXE boot and other gear that has no better protocol.",
     "version": "1.0.0",
     "author": "ZHAO Xudong",
-    "homepage": "https://github.com/zxdong262/electerm-widget-tftp",
+    "homepage": "https://github.com/electerm/electerm-widget-tftp",
     "type": "instance",
     "configs": [
       {

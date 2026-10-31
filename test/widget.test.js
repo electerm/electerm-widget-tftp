@@ -6,7 +6,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 
-const { widgetRun } = require('../index')
+const { widgetRun } = require('../main')
 const manifest = require('../package.json')
 const { readFile } = require('./helpers/client')
 
@@ -23,7 +23,7 @@ test('the manifest is a widget the host can list', () => {
   assert.ok(conf, 'package.json needs an electerm block')
   assert.match(conf.id, /^[a-z0-9-]+$/)
   assert.equal(conf.type, 'instance')
-  assert.equal(manifest.main, 'index.js')
+  assert.equal(manifest.main, 'main.js')
   assert.ok(conf.name)
   assert.ok(conf.description)
 

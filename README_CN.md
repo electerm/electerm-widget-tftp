@@ -1,23 +1,27 @@
 # Local TFTP Server —— electerm 小组件
 
-一个跑在 electerm 小组件列表里的 TFTP 服务器。路由器、交换机、PXE 启动的机器或者
-`curl`，都可以从这里取文件；需要的话，也可以往里面上传。
+[English](README.md) | 中文
 
-零依赖、无构建步骤：协议直接用 `dgram` 实现，因为从 git 安装的组件没法执行
-`npm install`。
+把本地目录用 TFTP 分享出去，给那些只会说 TFTP 的设备用：路由器、交换机拉固件，PXE 启动，
+`curl -T` 把配置推回来。`type: "instance"`，契约和内置组件一致：
+`widgetRun(config, ctx)` → `{ instanceId, start, stop }`。
 
-[English](./README.md)
+**零依赖，没有 `node_modules`。** 协议直接基于 `dgram` 实现，没有需要一并提交的依赖 ——
+导入的就是几百 KB 源码。
 
 ## 安装
 
 electerm 里打开 **设置 → 小组件 → 从 URL 导入**，粘贴：
 
 ```
-https://github.com/zxdong262/electerm-widget-tftp
+electerm/electerm-widget-tftp
 ```
 
-`owner/repo` 这种写法也认。组件会装到 `<数据目录>/widgets/tftp-server/`，配置表单由
-electerm 自己渲染 —— 没有自定义面板，所以「随 electerm 启动」是能用的。
+或者完整地址 `https://github.com/electerm/electerm-widget-tftp`。导入会下载仓库并复制到
+`<数据目录>/widgets/tftp-server/`。仓库导入需要 electerm **v5.8.0+**，而且是复制不是链接：
+改了本地 clone 不会生效，要重新导入并确认覆盖。
+
+配置表单由 electerm 自己渲染 —— 没有自定义面板，所以「随 electerm 启动」是能用的。
 
 ## TFTP 是什么
 
@@ -115,7 +119,7 @@ npm run lint
 结构：
 
 ```
-index.js              组件契约：widgetRun(config, ctx) → { start, stop }
+main.js               组件契约：widgetRun(config, ctx) → { start, stop }
 lib/server.js         协议本体：监听 socket，每个请求一个 Transfer
 lib/packet.js         编解码，纯函数
 lib/safe-path.js      文件名 → 根目录内的路径，含软链接解析

@@ -1,25 +1,31 @@
 # Local TFTP Server — an electerm widget
 
-A TFTP server that lives in electerm's widget list. Point a router, a switch, a
-PXE booting machine or `curl` at it and serve a folder — or let them upload into
-it, if you turn that on.
+English | [中文](README_CN.md)
 
-No dependency, no build step: the protocol is implemented in this repo against
-`dgram`, because a widget installed from git cannot run `npm install`.
+Serve a folder over TFTP for the gear that has no better protocol: routers and
+switches pulling firmware, PXE booting machines, a config pushed back with
+`curl -T`. `type: "instance"`, same contract as the built-ins:
+`widgetRun(config, ctx)` → `{ instanceId, start, stop }`.
 
-[中文说明](./README.zh-CN.md)
+**No dependency, no `node_modules`.** The protocol is implemented in this
+repository against `dgram`, so there is nothing to vendor — import is a few
+hundred KB of source.
 
 ## Install
 
 In electerm: **Settings → Widgets → Import from URL**, then paste
 
 ```
-https://github.com/zxdong262/electerm-widget-tftp
+electerm/electerm-widget-tftp
 ```
 
-`owner/repo` works too. The widget lands in `<data dir>/widgets/tftp-server/`,
-and its config form is rendered by electerm itself — there is no custom panel,
-which is what lets **Start with electerm** work.
+or the full `https://github.com/electerm/electerm-widget-tftp`. Import downloads
+the repository and copies it to `<data dir>/widgets/tftp-server/`. Repository
+import needs electerm **v5.8.0+**, and it copies rather than links: editing a
+clone changes nothing until you re-import.
+
+The config form is rendered by electerm itself — there is no custom panel, which
+is what lets **Start with electerm** work.
 
 ## What TFTP is
 
@@ -130,7 +136,7 @@ npm run lint
 Layout:
 
 ```
-index.js              widget contract: widgetRun(config, ctx) → { start, stop }
+main.js               widget contract: widgetRun(config, ctx) → { start, stop }
 lib/server.js         the protocol: listening socket, one Transfer per request
 lib/packet.js         encode/decode, pure functions
 lib/safe-path.js      name → path inside the root, with symlink resolution

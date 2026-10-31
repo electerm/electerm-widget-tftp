@@ -1,0 +1,101 @@
+{
+  "name": "electerm-widget-tftp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Serve a folder over TFTP from electerm — for routers, switches, PXE boot and other gear that has no better protocol.",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "ZHAO Xudong",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zxdong262/electerm-widget-tftp.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "lint": "node --check index.js && node --check lib/server.js && node --check lib/packet.js && node --check lib/safe-path.js && node --check lib/block-reader.js && node --check lib/netascii.js"
+  },
+  "keywords": [
+    "electerm",
+    "electerm-widget",
+    "tftp",
+    "pxe",
+    "firmware"
+  ],
+  "electerm": {
+    "id": "tftp-server",
+    "name": "Local TFTP Server",
+    "description": "Serve a folder over TFTP for routers, switches, PXE boot and other gear that has no better protocol.",
+    "version": "1.0.0",
+    "author": "ZHAO Xudong",
+    "homepage": "https://github.com/zxdong262/electerm-widget-tftp",
+    "type": "instance",
+    "configs": [
+      {
+        "name": "host",
+        "type": "string",
+        "label": "Listen address",
+        "default": "0.0.0.0",
+        "description": "The interface to bind to. 0.0.0.0 listens on every network the machine has, which is what a router on the LAN needs."
+      },
+      {
+        "name": "port",
+        "type": "number",
+        "label": "Port",
+        "default": 6969,
+        "description": "TFTP uses UDP port 69, and binding below 1024 needs root — electerm runs as your user, so 6969 is the default. Point the client at this port."
+      },
+      {
+        "name": "directory",
+        "type": "directory",
+        "label": "Served folder",
+        "default": "",
+        "description": "The folder clients can read from (and write to, if uploads are enabled). Leave empty for ~/tftp; it is created if it does not exist."
+      },
+      {
+        "name": "allowWrite",
+        "type": "boolean",
+        "label": "Allow uploads",
+        "default": false,
+        "description": "Accept WRQ requests, so clients can push files into the served folder. Off by default: TFTP has no password, so anyone who can reach the port could write."
+      },
+      {
+        "name": "overwrite",
+        "type": "boolean",
+        "label": "Overwrite existing files",
+        "default": false,
+        "description": "Only matters with uploads enabled. When off, an upload to a name that already exists is refused with \"file already exists\"."
+      },
+      {
+        "name": "maxBlockSize",
+        "type": "number",
+        "label": "Max block size",
+        "default": 1468,
+        "description": "Upper bound for the blksize option (RFC 2348). 1468 keeps each packet inside a 1500 byte MTU; raise it on a network with jumbo frames, lower it if packets are dropped."
+      },
+      {
+        "name": "timeout",
+        "type": "number",
+        "label": "Timeout (seconds)",
+        "default": 3,
+        "description": "How long to wait for the next packet before retransmitting it."
+      },
+      {
+        "name": "retries",
+        "type": "number",
+        "label": "Retries",
+        "default": 5,
+        "description": "How many retransmissions before a transfer is abandoned."
+      },
+      {
+        "name": "autoRun",
+        "type": "boolean",
+        "label": "Start with electerm",
+        "default": false,
+        "description": "Start this server when electerm starts, so it is already up when a device on the LAN asks for a file."
+      }
+    ]
+  }
+}

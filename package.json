@@ -1,6 +1,6 @@
 {
   "name": "electerm-widget-tftp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Serve a folder over TFTP from electerm — for routers, switches, PXE boot and other gear that has no better protocol.",
   "main": "main.js",
@@ -29,7 +29,7 @@
     "id": "tftp-server",
     "name": "Local TFTP Server",
     "description": "Serve a folder over TFTP for routers, switches, PXE boot and other gear that has no better protocol.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "ZHAO Xudong",
     "homepage": "https://github.com/electerm/electerm-widget-tftp",
     "type": "instance",
@@ -97,6 +97,50 @@
         "default": false,
         "description": "Start this server when electerm starts, so it is already up when a device on the LAN asks for a file."
       }
-    ]
+    ],
+    "i18n": {
+      "zh_cn": {
+        "name": "本地 TFTP 服务器",
+        "description": "通过 TFTP 提供文件夹，供路由器、交换机、PXE 启动及其他没有更好协议的设备使用。",
+        "configs": {
+          "host": {
+            "label": "监听地址",
+            "description": "绑定的网络接口。0.0.0.0 会监听本机所有网络，局域网内的路由器需要它。"
+          },
+          "port": {
+            "label": "端口",
+            "description": "TFTP 使用 UDP 69 端口，而绑定 1024 以下端口需要 root 权限——electerm 以你的用户身份运行，所以默认 6969。客户端请指向这个端口。"
+          },
+          "directory": {
+            "label": "共享文件夹",
+            "description": "客户端可以读取的文件夹（启用上传时也可写入）。留空则使用 ~/tftp；不存在时会自动创建。"
+          },
+          "allowWrite": {
+            "label": "允许上传",
+            "description": "接受 WRQ 请求，客户端可以把文件推送到共享文件夹。默认关闭：TFTP 没有密码，任何能访问端口的人都可以写入。"
+          },
+          "overwrite": {
+            "label": "覆盖已有文件",
+            "description": "仅在启用上传时有效。关闭时，上传同名文件会被拒绝并提示“文件已存在”。"
+          },
+          "maxBlockSize": {
+            "label": "最大块大小",
+            "description": "blksize 选项的上限（RFC 2348）。1468 可让每个包保持在 1500 字节 MTU 内；网络支持巨型帧可调大，丢包则调小。"
+          },
+          "timeout": {
+            "label": "超时（秒）",
+            "description": "重传前等待下一个包的时间。"
+          },
+          "retries": {
+            "label": "重试次数",
+            "description": "放弃传输前的重传次数。"
+          },
+          "autoRun": {
+            "label": "随 electerm 启动",
+            "description": "electerm 启动时就运行本服务，这样局域网设备请求文件时它已经就绪。"
+          }
+        }
+      }
+    }
   }
 }
